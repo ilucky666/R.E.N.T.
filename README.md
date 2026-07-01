@@ -38,24 +38,24 @@ NestLink 采用行业前沿的 **Agent 智能体架构** 与 **混合检索 (Hyb
 
 ```mermaid
 sequenceDiagram
-    participant User as 👤 租客 (小程序端)
-    participant Agent as 🤖 AI 租房 Agent
-    participant LLM as 🧠 LLM (意图提取)
-    participant State as 🗂️ 用户画像状态 (Redis)
-    participant SQL as 💾 结构化库 (PostgreSQL)
-    participant Vector as 🌌 向量库 (Milvus/Chroma)
+    participant User as 租客 (小程序端)
+    participant Agent as AI 租房 Agent
+    participant LLM as LLM (意图提取)
+    participant State as 用户画像状态 (Redis)
+    participant SQL as 结构化库 (PostgreSQL)
+    participant Vector as 向量库 (Milvus)
     
-    User->>Agent: "想在南山找个有生活气息的一居室，5k内"
+    User->>Agent: 想在南山找个有生活气息的一居室，5k内
     Agent->>LLM: 语义解构请求
-    LLM-->>Agent: JSON提取 {budget:5000, region:"南山", intent:"有生活气息"}
+    LLM-->>Agent: 提取条件 [预算5000, 区域南山, 意图有生活气息]
     Agent->>State: 更新并持久化用户画像
-    Agent->>SQL: 硬性过滤 (budget <= 5000 AND region = '南山')
+    Agent->>SQL: 硬性过滤 [budget <= 5000 AND region = 南山]
     SQL-->>Agent: 返回 500 套初筛房源
-    Agent->>Vector: 拿着 "有生活气息" 匹配初筛房源的 Embedding
+    Agent->>Vector: 匹配初筛房源的 Embedding [意图有生活气息]
     Vector-->>Agent: 返回 Top 5 相似房源
     Agent->>LLM: 传入 Top 5 房源，要求生成高情商推荐话术
     LLM-->>Agent: 生成定制化推荐文案
-    Agent-->>User: 卡片展示 + "为您找到这套楼下就有夜市的房子..."
+    Agent-->>User: 卡片展示 + 为您找到这套楼下就有夜市的房子
 ```
 
 ### 核心技术栈
@@ -84,7 +84,7 @@ sequenceDiagram
 
 ## 🚀 商业前景与变现路径
 
-2024-2025年，长租公寓市场步入“量稳质升”期，重资产包租模式已被证明风险极高。NestLink 坚持**“轻资产运营 + 服务深耕”**战略，拥有清晰的商业变现蓝图：
+近年来，长租公寓市场步入“量稳质升”期，重资产包租模式已被证明风险极高。NestLink 坚持**“轻资产运营 + 服务深耕”**战略，拥有清晰的商业变现蓝图：
 
 1. **破冰期：流量与口碑裂变**
    - 迎合“搭子文化”与“降级/理性消费（拒交中介费）”，以社交匹配和免中介费作为天然获客杠杆，在高校毕业生和一线城市白领中快速积累早期种子用户。
